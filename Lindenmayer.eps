@@ -1,0 +1,151 @@
+%!PS-Adobe-3.0 EPSF-3.0
+%%Title: (dessin systeme L --- IFT2015 automne 2016)
+%%Creator: (Youssef Zaki )
+%%BoundingBox: 0 0 500 500
+%%EndComments
+
+%
+% %%BeginProlog ... %%EndProlog sont des commentaires de structuration de document 
+% pour denoter un bloc de definitions de nouveaux ensembles d'operateurs (procset) 
+% et d'autres ressources (p.e., polices). 
+
+
+%
+% %%BeginResource...%%EndResource enferment une ressource 
+% comme un ensemble d'operateurs (procset). 
+%
+
+%%BeginProlog
+%%BeginResource: procset (graphisme tortue) 1.0 0
+
+% --------- definition d'operations pour graphisme tortue
+%
+% Le systeme de coordonnes suit les deplacements et tours de la tortue,
+% de maniere a ce que la tourtue est toujours a l'origine avec le next tourne 
+% vers l'axe X. 
+%
+% Operations: 
+% T:move avance la tortue 
+% T:draw avance la tortue en dessinant une ligne entre les points de depart et arrivee
+% T:turn tourne le nez de la tortue
+
+/T:move % d T:move -
+	% avance la tortue par d (nombre --- positif, negatif ou 0)
+{
+	 0 translate % mettre l'origin a cette nouvelle position
+} def
+
+/T:draw % d T:draw -
+	% avance la torue par d en dessinant une ligne
+{
+	 newpath 
+	 0 0 moveto
+	 0 lineto
+	 currentpoint 
+	 stroke 
+	 translate 
+} def
+
+/T:turn % angle T:turn -
+	 % tourne le nez de la tourtue par l'angle (en degres)
+{
+	 rotate
+} def
+
+/T:init % x y angle T:init -
+	 % etat initiel de la tortue
+{	 
+	 3 1 roll translate
+	 rotate 
+} def
+
+%%EndResource
+
+%%BeginResource: procset (regle aleatoire) 1.0 0
+
+realtime srand % graine aleatoire --- pendant les tests, utiliser une valeur fixe (p.e., 2015 rand) si necessaire pour repetabilite
+
+/L:rnd % [op1 op2 ...] L.rnd -
+	 % choisit un operateur au hasard et l'execute
+	 % op1, op2 etc sont des noms (commencent par /)
+{
+	 rand % nombre aleatoire entre 0 et 2^31-1
+	 1 index length % longueur du tableau 
+	 mod % nombre aleatoire entre 0 et len-1
+	 get 
+	 cvx % conversion a executable 
+	 exec % executer
+} def
+
+%%EndResource
+
+%
+% La reste du fichier est genere par votre traducteur. Il n'est pas necessaire d'ecrire des 
+% commentaires. 
+% ---------------- BEGIN
+
+%%BeginResource: procset (systeme L) 1.0 0
+
+/L:d 5.0 def % deplacement par defaut
+/L:a 60.0 def % angle par defaut
+
+
+/F1 % iter F1 -
+{
+	 dup F % dupliquer iter pour les appels suivants a F 
+	 L:a T:turn % +
+	 dup F % dupliquer iter pour les appels suivants a F 
+	 L:a neg T:turn % -
+	 L:a neg T:turn % -
+	 dup F % dupliquer iter pour les appels suivants a F 
+	 L:a T:turn % +
+	F
+} def
+
+/F
+{
+	 dup
+	 0 eq
+	{ L:d T:draw pop }
+	{ 1 sub
+		[/F1] L:rnd
+	} ifelse
+
+} def
+
+/f
+{
+	 dup
+	 0 eq
+	{ L:d T:move pop }
+	{ 1 sub
+		[] L:rnd
+	} ifelse
+
+} def
+
+/omega {
+	 dup F
+	 L:a neg T:turn
+	 L:a neg T:turn
+	 dup F
+	 L:a neg T:turn
+	 L:a neg T:turn
+	 dup F
+	 pop
+	 } def
+
+%%EndResource
+%%EndProlog
+
+% ------- fin de definitions, dessin commence ici
+
+250.0 200.0 % x0 y0
+60.0 % angle initial
+T:init
+
+3  % nombre iterations
+omega % symbole de debut
+
+% le fichier doit finir par le commentaire special %%EOF
+%%EOF
