@@ -13,7 +13,7 @@ In such a system, we generate links S0,S1,S2 by applying the rules of replacemen
 
     S0= w
     F => FF-F => FF-FFF-F-FF-F
-    
+    ![d266e651-61d8-4856-878f-d0a93d0f4df7](https://cloud.githubusercontent.com/assets/14367775/20034765/7ade85e0-a3a0-11e6-95be-ad2b6c9f2042.jpg)
     
 ## turtle graphics
 
