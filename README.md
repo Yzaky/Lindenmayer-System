@@ -17,4 +17,16 @@ In such a system, we generate links S0,S1,S2 by applying the rules of replacemen
     
 ## turtle graphics
 
+The turtle contains a pen and can move forward (Fixed distance D) while drawing a line ( Symbol F ) or not ( Symbol f ).
+The turtle can also rotate (fixed angel Omega) in the same direction of a clock ( Symbol - ) or not ( Symbol + ). The state of the turtle has a position of (x,y) and also an angel ϴ compared to the horizontal line. A graphic is specified by an Array of Chars in L-System. We interpret one by one each character.
+
+        F : Move the turtle forward by D, while drawing a line from the depart position to the arriving one. The state of the turtle changes from (x,y,ϴ) to (x+ Dcosϴ, y+Dsinϴ, ϴ) Or D un a global parametre.
+        
+        f: Move the turtle forward without drawing a line. The state of the turtle has the same behavior mentioned above.
+        + : Rotates the head of the turtle. The state of the turtle changes from (x,y,ϴ) to (x,y,ϴ+Omega)
+        - : Rotates the head of the turtle. The state of the turtle changes from (x,y,ϴ) to (x,y,ϴ-Omega)
+        [ : pushes the current state of the turtle to the saved states stack. Current state does not change.
+        ] : pops  the state of the turtle and affects the current state. Which means the staet changes from (x,y,ϴ) to (x',y',ϴ'). (x',y',ϴ') is recently saved state by [.
+        X : no affection.
+
 
